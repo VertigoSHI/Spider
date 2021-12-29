@@ -10,3 +10,7 @@ class MyspidersItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
+
+class GoogleScholarItem(scrapy.Item):
+    title = scrapy.Field()
+    url = scrapy.Field()
