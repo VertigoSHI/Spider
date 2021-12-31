@@ -19,10 +19,10 @@ class ScihubSpider(scrapy.Spider):
     download_path = "save"
 
     def readDoi(self):
-        f = open(self.doi_path, "r+")
-        lines = f.readlines()
-        for line in lines:
-            self.dois.append(line)
+        with open(self.doi_path, "r+") as f:
+            lines = f.readlines()
+            for line in lines:
+                self.dois.append(line)
 
     def start_requests(self):
         url = self.start_urls[0]
@@ -45,7 +45,7 @@ class ScihubSpider(scrapy.Spider):
         headers = {
             "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
         }
-        r = requests.get(headers=headers,url=pdf_embed_url, allow_redirects=True, stream=True)
+        r = requests.get(headers=headers, url=pdf_embed_url, allow_redirects=True, stream=True)
         with open(str(self.num) + ".pdf", "wb+") as f:
             for ch in r:
                 f.write(ch)
