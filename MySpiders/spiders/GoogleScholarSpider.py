@@ -1,13 +1,14 @@
 import json
 import os
+import time
 
 import scrapy
 from MySpiders.items import GoogleScholarItem
 
 
-class GoogleScholarSpider(scrapy.Spider):
-    name = 'GoogleScholarSpider'
-    allowed_domains = ['scholar.google.com/']
+class GoogleScholar(scrapy.Spider):
+    name = 'GoogleScholar'
+    allowed_domains = ['scholar.google.com/','scholar.google.com']
     start_urls = ['https://scholar.google.com//']
 
     # 需要查的主题
@@ -27,5 +28,7 @@ class GoogleScholarSpider(scrapy.Spider):
             item["url"] = block.css("a::attr(href)").extract_first()
             item["title"] = block.css("a::text").extract()
             yield item
-        next_bottom = response.xpath("/html/body/div[1]/div[11]/div[2]/div[3]/div[3]/div[2]/center/table/tbody/tr/td[12]/a/@href")[0].get_all()
-        yield scrapy.Request(url=next_bottom, callback=self.start_urls)
+        next = response.css("td[align=left] a::attr(href)").extract()[0][1:]
+        next = (self.start_urls[0] + next)
+        time.sleep(10)
+        yield scrapy.Request(url=next, callback=self.parse)
