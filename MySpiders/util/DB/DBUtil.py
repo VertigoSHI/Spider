@@ -84,6 +84,7 @@ class MysqlDBUtil(BaseDBUtil):
 
     @classmethod
     def execute(cls, expression: str):
+        print(expression)
         try:
             cls.cursor.execute(expression)
         except err.MySQLError as exception:
