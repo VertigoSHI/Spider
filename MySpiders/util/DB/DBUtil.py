@@ -2,6 +2,7 @@ from configparser import ConfigParser
 from enum import Enum
 
 import pymysql
+import scrapy
 from pymysql import err
 
 DBConfigPath = "DBConfig.conf"
@@ -111,7 +112,7 @@ class MysqlDBUtil(BaseDBUtil):
     @classmethod
     def create_table_with_class(cls, DBName, tableName, data_class: object):
         schemaMap = {}
-        for attr in data_class.__dict__:
+        for attr in dir(data_class) not in dir(scrapy.item.DictItem):
             pass
         pass
 
